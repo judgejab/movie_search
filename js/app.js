@@ -20,8 +20,9 @@ $('form').submit(function(evt) {
 		var movieHTML = '';
 
 		// If a result comes back
-		if(data.response === true) {
-			$.each(data.items, function(i, movie) {	
+		if(data.Response) {
+
+			$.each(data.Search, function(i, movie) {	
 
 				movieHTML += '<li><div class="poster-wrap">';
 
@@ -43,7 +44,7 @@ $('form').submit(function(evt) {
 		$('#movies').html(movieHTML);
 	
 	}
-	
+
 	$.getJSON(omdbAPI, movieOptions, displayMovies);
 });
 
