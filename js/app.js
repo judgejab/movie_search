@@ -6,12 +6,15 @@ $('form').submit(function(evt) {
 	evt.preventDefault();
 
 	var searchTerm = $('#search');
+	var yearSearch = $('#year');
 	var submitButton = $('#submit');
 
 	var omdbAPI = 'http://www.omdbapi.com/?';
 	var title = searchTerm.val();
+	var year = yearSearch.val();
 	var movieOptions = {
 		s: title,
+		y: year,
 		r: "json"	
 	};
 
@@ -28,7 +31,7 @@ $('form').submit(function(evt) {
 
 				// Show placeholder for poster if not available
 				if(movie.Poster != "N/A"){
-					movieHTML += '<img class="movie-poster" src="' + movie.Poster + '"></div>';
+					movieHTML += '<a href="http://www.imdb.com/title/' + movie.imdbID + '"><img class="movie-poster" src="' + movie.Poster + '"></div></a>';
 				} else {
 					movieHTML += '<i class="material-icons poster-placeholder">crop_original</i>';
 				}
@@ -36,7 +39,7 @@ $('form').submit(function(evt) {
 			});
 
 		// If there aren't any results	
-		} else if (data.Response == "False" || typeof data.Response == "undefined") {
+		} else if (!data.Response || typeof data.Response == "undefined") {
 			movieHTML += "<li class='no-movies'> <i class='material-icons icon-help'>help_outline</i>No movies found that match: " + title + "</li>";
 		}
 
@@ -50,13 +53,6 @@ $('form').submit(function(evt) {
 
 
 // EXTRA CREDIT:
-	// Filter the search by year of release
-		// See search form comments in index.html to display the 'year' field
-
-	// Link a movie to its IMDb page
-		// Wrap the poster image -- or everything in the <li> -- in a <a> tag that links a movie to its imdb.com page
-		// For example: The Amazing Spider-Man
-
 	// Create a movie description page
 		// Load or link to a description page displaying a movie's title, year, poster, plot information, and IMDb rating
 		// You'll need to write the CSS for this new page
